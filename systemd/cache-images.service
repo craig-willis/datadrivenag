@@ -1,0 +1,9 @@
+[Unit]
+Description=Cache Workbench images
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh -c '/home/core/cache-images.sh'
+
+[Install]
+WantedBy=multi-user.target

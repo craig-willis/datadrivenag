@@ -1,0 +1,9 @@
+FROM terraref/jupyter-terra:datadrivenag
+
+USER root
+RUN mkdir -p ~/pkg && octave --eval "pkg install -forge io statistics gnuplot"
+
+
+COPY start-notebook.sh /usr/local/bin/
+
+USER $NB_USER

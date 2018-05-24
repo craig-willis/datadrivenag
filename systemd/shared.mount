@@ -1,0 +1,12 @@
+[Unit]
+Description=Mount shared NFS directory on /shared
+After=local-fs.target
+
+[Mount]
+What=10.128.11.16:/data/shared
+Where=/shared
+Type=nfs
+Options=noatime
+
+[Install]
+WantedBy=multi-user.target

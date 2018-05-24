@@ -1,0 +1,15 @@
+terraref/jupyter-terra:datadrivenag
+craigwillis/apiserver:etcd-fix
+craigwillis/geoserver:latest
+terraref/cloud9-terra:datadrivenag
+ndslabs/angular-ui:1.1.0
+terraref/rstudio-terraref:datadrivenag
+terraref/xpra-terraref:latest
+terraref/bety-postgis:latest
+lukasmartinelli/pgstudio:latest
+coderaiser/cloudcmd:5.5.1-alpine
+ndslabs/gcp-docker:latest
+mongo:3.2.4
+rabbitmq:3.6.1-management
+clowder/extractors-image-preview
+clowder/clowder:1.3.3
