@@ -1,0 +1,76 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: geoserver
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /geoserver
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  rules:
+  - host: geoserver.workshop1.nationaldataservice.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: geoserver
+          servicePort: 8080
+  tls:
+  - hosts:
+    - geoserver.workshop1.nationaldataservice.org
+    secretName: ndslabs-tls-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: geoserver
+  labels:
+    component: geoserver
+spec:
+  selector:
+    component: geoserver
+  ports:
+    - port: 8080
+      protocol: TCP
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: geoserver
+spec:
+  replicas: 1
+  selector:
+    component: geoserver
+  template:
+    metadata:
+      labels:
+        component: geoserver
+    spec:
+      containers:
+      - name: geoserver
+        image: craigwillis/geoserver
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+          - name: data
+            mountPath: "/opt/geoserver/data_dir"
+        env:
+          - name: GEOSERVER_DATA_DIR
+            value: "/opt/geoserver/data_dir"
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 16G
+          requests:
+            cpu: 100m
+            memory: 100M
+      volumes:
+       - hostPath:
+            path: "/shared/terraref/geoserver/"
+         name: data
+      nodeSelector:
+          ndslabs-role-compute: "true"
